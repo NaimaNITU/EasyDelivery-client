@@ -2,11 +2,21 @@
 @plugin "daisyui";
 
 @import url('https://fonts.googleapis.com/css2?family=Savate:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
 /* Use Savate font only for logo */
 .logoFont {
     font-family: "Savate", sans-serif;
+    font-optical-sizing: auto; 
+    font-style: normal;
+    
 }
+
+.orbitron {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+        font-style: normal;
+         }
 
 /* Global reset and box model fix */
 *,

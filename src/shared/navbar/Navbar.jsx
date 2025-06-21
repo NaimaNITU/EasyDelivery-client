@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router";
 import EasyDeliveryLogo from "../easyDeliveryLogo/EasyDeliveryLogo";
+import Logo from "../easyDeliveryLogo/Logo";
 
 const Navbar = () => {
   const links = (
@@ -16,7 +17,7 @@ const Navbar = () => {
 
   return (
     <div className="bg-base-100 shadow-sm">
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center py-4 px-4">
+      <div className=" flex justify-between items-center py-4 px-4">
         {/* Left: Logo + Dropdown */}
         <div className="flex items-center gap-4">
           {/* Mobile Menu */}
@@ -46,7 +47,8 @@ const Navbar = () => {
           </div>
 
           {/* Logo */}
-          <EasyDeliveryLogo />
+          {/* <EasyDeliveryLogo /> */}
+          <Logo />
         </div>
 
         {/* Center: Nav links for large screens */}
