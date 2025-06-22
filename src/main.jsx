@@ -7,6 +7,7 @@ import { router } from "./router/Router";
 import "aos/dist/aos.css";
 import Aos from "aos";
 import AuthProvider from "./context/AuthContext/AuthProvider.jsx";
+import "./utils/fixLeafletIcon";
 
 Aos.init();
 createRoot(document.getElementById("root")).render(
