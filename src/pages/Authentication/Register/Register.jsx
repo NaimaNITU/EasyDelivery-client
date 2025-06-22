@@ -1,5 +1,8 @@
 import React from "react";
+import { Link } from "react-router";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
+import SocialLogin from "./../SocialLogin/SocialLogin";
 
 const Register = () => {
   const {
@@ -7,15 +10,22 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { createUser } = useAuth();
 
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+      .then((result) => {
+        alert("user created successfully");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   return (
     <div>
-      <h1 className="text-5xl font-bold">Register now!</h1>
-
-      <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <div className="card bg-base-100 w-96 max-w-sm shrink-0 shadow-2xl">
+        <h1 className="text-3xl text-center font-bold">Register now!</h1>
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="fieldset">
@@ -64,12 +74,18 @@ const Register = () => {
                 )
               }
 
-              <div>
-                <a className="link link-hover">Forgot password?</a>
-              </div>
-              <button className="btn btn-neutral mt-4">Login</button>
+              <button className="btn btn-primary text-black mt-4">
+                Register
+              </button>
+              <p>
+                Already have an account?{" "}
+                <Link className="text-primary font-bold" to="/auth/login">
+                  Login
+                </Link>
+              </p>
             </fieldset>
           </form>
+          <SocialLogin />
         </div>
       </div>
     </div>
