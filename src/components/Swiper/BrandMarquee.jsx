@@ -19,10 +19,7 @@ const BrandMarquee = () => {
       </h2>
       <Marquee speed={50} gradient={false}>
         {brandImages.map((img, idx) => (
-          <div
-            key={idx}
-            className="mx-8 gap-30 flex justify-center items-center"
-          >
+          <div key={idx} className="mx-24  flex justify-center items-center">
             <img
               src={img}
               alt={`Brand ${idx + 1}`}

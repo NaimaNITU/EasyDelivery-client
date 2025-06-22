@@ -4,7 +4,7 @@ import EasyDeliveryLogo from "../easyDeliveryLogo/EasyDeliveryLogo";
 const Footer = () => {
   return (
     <>
-      <footer className="footer footer-horizontal footer-center bg-neutral text-neutral-content p-10">
+      <footer className="footer footer-horizontal footer-center bg-neutral text-neutral-content p-10 mt-6">
         <aside>
           <EasyDeliveryLogo />
           <p className="font-bold">

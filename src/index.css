@@ -1,5 +1,22 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui"
+{
+        themes: light --default, dark --prefersdark;
+}
+
+@plugin "daisyui/theme" {
+    name: "mytheme";
+    default: true;
+    /* set as default */
+    prefersdark: true;
+    /* set as default dark mode (prefers-color-scheme:dark) */
+    color-scheme: light;
+    /* set as default light mode (prefers-color-scheme:light) */
+    base: oklch(98% 0.01 240);
+    --color-primary:#CAEB66
+}
+
+
 
 @import url('https://fonts.googleapis.com/css2?family=Savate:ital,wght@0,200..900;1,200..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
