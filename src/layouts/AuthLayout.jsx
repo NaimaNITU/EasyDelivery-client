@@ -8,7 +8,7 @@ const AuthLayout = () => {
     <>
       <div className="  p-16">
         <Logo />
-        <div className="hero-content flex-col lg:flex-row-reverse">
+        <div className="hero-content flex-col lg:flex-row-reverse ">
           <div className="flex-1 bg-[#FAFDF0]">
             <img src={AuthImg} className="max-w-sm rounded-lg " />
           </div>
