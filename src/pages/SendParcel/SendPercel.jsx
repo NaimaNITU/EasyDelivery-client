@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import serviceData from "../../../public/data/warehouses.json";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const generateTrackingId = () => {
   const date = new Date();
-  const datePart = date.toISOString.split("T")[0].replace(/-/g, "");
+  const datePart = date.toISOString().split("T")[0].replace(/-/g, "");
   const rand = Math.random().toString(36).substring(2, 9).toUpperCase();
   return `PCL-${datePart}${rand}`;
 };
@@ -18,8 +19,9 @@ const ParcelForm = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
+  const axiosSecure = useAxiosSecure();
 
   const [cost, setCost] = useState(0);
   const [summary, setSummary] = useState({});
@@ -90,11 +92,22 @@ const ParcelForm = () => {
       creation_date: new Date().toISOString(),
       tracking_id: generateTrackingId(),
     };
-    console.log("Saved Parcel:", parcelData);
+    // console.log("Saved Parcel:", parcelData);
 
     //now save data to the server
+    axiosSecure
+      .post("/parcels", parcelData)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          // it will redirect to the payment page
+          toast.success("Parcel sent successfully!");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    toast.success("Parcel Added Successfully");
     reset();
     setShowConfirm(false);
   };
