@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import serviceData from "../../../public/data/warehouses.json";
+import useAuth from "../../hooks/useAuth";
+
+const generateTrackingId = () => {
+  const date = new Date();
+  const datePart = date.toISOString.split("T")[0].replace(/-/g, "");
+  const rand = Math.random().toString(36).substring(2, 9).toUpperCase();
+  return `PCL-${datePart}${rand}`;
+};
 
 const ParcelForm = () => {
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -75,9 +84,16 @@ const ParcelForm = () => {
   const onConfirm = () => {
     const parcelData = {
       ...summary,
+      created_by: user.email,
+      payment_status: "pending",
+      delivery_status: "not collected",
       creation_date: new Date().toISOString(),
+      tracking_id: generateTrackingId(),
     };
     console.log("Saved Parcel:", parcelData);
+
+    //now save data to the server
+
     toast.success("Parcel Added Successfully");
     reset();
     setShowConfirm(false);
