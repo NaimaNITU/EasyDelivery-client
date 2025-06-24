@@ -2,12 +2,17 @@ import React from "react";
 import { NavLink } from "react-router";
 import EasyDeliveryLogo from "../easyDeliveryLogo/EasyDeliveryLogo";
 import Logo from "../easyDeliveryLogo/Logo";
+import useAuth from "./../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, logoutUser } = useAuth();
   const links = (
     <>
       <li>
         <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/sendParcel">Send Parcel</NavLink>
       </li>
       <li>
         <NavLink to="/coverage">Coverage</NavLink>
@@ -18,6 +23,13 @@ const Navbar = () => {
     </>
   );
 
+  const handleSignOut = (e) => {
+    e.preventdefault();
+
+    logoutUser()
+      .then(() => {})
+      .catch((error) => {});
+  };
   return (
     <div className="bg-base-100 shadow-sm">
       <div className=" flex justify-between items-center py-4 px-4">
@@ -61,7 +73,18 @@ const Navbar = () => {
 
         {/* Right: Button */}
         <div>
-          <a className="btn">Button</a>
+          {user ? (
+            <button
+              onClick={() => handleSignOut()}
+              className="btn btn-primary text-black"
+            >
+              Logout
+            </button>
+          ) : (
+            <NavLink to="/auth/register">
+              <button className="btn btn-primary text-black">Register</button>
+            </NavLink>
+          )}
         </div>
       </div>
     </div>
