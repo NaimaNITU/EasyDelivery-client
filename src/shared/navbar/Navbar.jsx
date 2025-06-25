@@ -28,9 +28,7 @@ const Navbar = () => {
     </>
   );
 
-  const handleSignOut = (e) => {
-    e.preventdefault();
-
+  const handleSignOut = () => {
     logoutUser()
       .then(() => {})
       .catch((error) => {});
@@ -80,14 +78,14 @@ const Navbar = () => {
         <div>
           {user ? (
             <button
-              onClick={() => handleSignOut()}
+              onClick={handleSignOut}
               className="btn btn-primary text-black"
             >
               Logout
             </button>
           ) : (
-            <NavLink to="/auth/register">
-              <button className="btn btn-primary text-black">Register</button>
+            <NavLink to="/auth/login">
+              <button className="btn btn-primary text-black">Login</button>
             </NavLink>
           )}
         </div>

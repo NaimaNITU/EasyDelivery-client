@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router";
+import { Link } from "react-router";
 import { Outlet } from "react-router";
 
 const DashBoardLayout = () => {
@@ -43,10 +45,10 @@ const DashBoardLayout = () => {
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           {/* Sidebar content here */}
           <li>
-            <a>Sidebar Item 1</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <NavLink to="/dashboard/myParcels">My Parcels</NavLink>
           </li>
         </ul>
       </div>
