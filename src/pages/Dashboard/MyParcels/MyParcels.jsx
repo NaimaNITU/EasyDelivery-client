@@ -3,10 +3,12 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "./../../../hooks/useAxiosSecure";
 import Logo from "../../../shared/easyDeliveryLogo/Logo";
+import { useNavigate } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { data: parcels = [] } = useQuery({
     queryKey: ["my-parcels", user.email],
@@ -22,6 +24,11 @@ const MyParcels = () => {
       dateStyle: "medium",
       timeStyle: "short",
     });
+  };
+
+  const handlePay = (id) => {
+    console.log(id);
+    navigate(`/dashboard/payment/${id}`);
   };
 
   return (
@@ -59,7 +66,12 @@ const MyParcels = () => {
               </td>
               <td className="space-x-1">
                 <button className="btn btn-xs btn-info">View</button>
-                <button className="btn btn-xs btn-success">Pay</button>
+                <button
+                  onClick={() => handlePay(parcel._id)}
+                  className="btn btn-xs btn-success"
+                >
+                  Pay
+                </button>
                 <button className="btn btn-xs btn-error">Delete</button>
               </td>
             </tr>
