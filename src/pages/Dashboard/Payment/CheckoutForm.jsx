@@ -1,14 +1,27 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const CheckoutForm = () => {
   const { parcelId } = useParams();
-  console.log(parcelId);
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState("");
+  const axiosSecure = useAxiosSecure();
+
+  const { isPending, data: parcelInfoById = {} } = useQuery({
+    queryKey: ["parcel", parcelId],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/parcels/${parcelId}`);
+      return res.data;
+    },
+  });
+  //   console.log(parcelInfoById);
+  const amountInCents = parcelInfoById.cost * 100;
+  //   console.log(amountInCents);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,6 +47,14 @@ const CheckoutForm = () => {
       setError("");
       console.log("[PaymentMethod]", paymentMethod);
     }
+
+    //create a payment intent
+    const { data: paymentIntent } = await axiosSecure.post(
+      "/create-payment-intent",
+      { amount: amountInCents }
+    );
+
+    console.log(paymentIntent);
   };
   return (
     <>
@@ -47,7 +68,7 @@ const CheckoutForm = () => {
           type="submit"
           disabled={!stripe}
         >
-          Pay for delivery
+          Pay ${parcelInfoById.cost}
         </button>
         {error && <p className="text-red-500">{error}</p>}
       </form>
