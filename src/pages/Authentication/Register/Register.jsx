@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import SocialLogin from "./../SocialLogin/SocialLogin";
 import { useLocation } from "react-router";
+import axios from "axios";
 
 const Register = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const Register = () => {
   const { createUser } = useAuth();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     createUser(data.email, data.password)
       .then((result) => {
         alert("user created successfully");
@@ -26,6 +27,19 @@ const Register = () => {
         console.log(error.message);
       });
   };
+
+  //handle image
+  const handleImageUpload = async (event) => {
+    const img = event.target.files[0];
+
+    const formData = new FormData();
+    formData.append("image", img);
+    const imageurl = `https://api.imgbb.com/1/upload?key=${
+      import.meta.env.VITE_imagebb_api_key
+    }`;
+    const res = await axios.post(imageurl, formData);
+    console.log(res);
+  };
   return (
     <div>
       <div className="card bg-base-100 w-96 max-w-sm shrink-0 shadow-2xl">
@@ -33,6 +47,27 @@ const Register = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="fieldset">
+              {/* name */}
+              <label className="label">Name</label>
+              <input
+                type="text"
+                className="input"
+                placeholder="Name"
+                {...register("name", { required: true })}
+              />
+              {errors.name?.type === "required" && (
+                <p className="text-red-500">Name is required</p>
+              )}
+
+              {/* image */}
+              <label className="label">Image</label>
+              <input
+                type="file"
+                onChange={handleImageUpload}
+                className="input"
+                placeholder="Image"
+              />
+
               {/* email */}
               <label className="label">Email</label>
               <input
