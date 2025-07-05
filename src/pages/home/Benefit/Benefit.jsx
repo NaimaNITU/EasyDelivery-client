@@ -22,11 +22,11 @@ const Benefit = () => {
   ];
 
   return (
-    <section className="flex flex-col gap-12 p-6 md:p-12 bg-white">
+    <section className="flex flex-col gap-12 p-6 md:p-12 ">
       {features.map((feature, index) => (
         <div
           key={index}
-          className="flex flex-col md:flex-row items-center gap-8 bg-base-100 shadow-md rounded-3xl p-6 md:p-12"
+          className="flex flex-col md:flex-row items-center gap-8  shadow-md rounded-3xl p-6 md:p-12"
         >
           {/* Image */}
           <div className="w-full md:w-1/4">
@@ -42,9 +42,7 @@ const Benefit = () => {
 
           {/* Text content */}
           <div className="w-full md:w-3/4">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-              {feature.title}
-            </h3>
+            <h3 className="text-xl md:text-2xl font-bold ">{feature.title}</h3>
             <p className="text-gray-600 mt-2">{feature.desc}</p>
           </div>
         </div>

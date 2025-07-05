@@ -1,27 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import SocialLogin from "./../SocialLogin/SocialLogin";
 import { useLocation } from "react-router";
 import axios from "axios";
+import useAxios from "../../../hooks/useAxios";
 
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [profilePic, setProfilePic] = useState("");
+  const { updateUserProfile } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const { createUser } = useAuth();
+  const axiosInstance = useAxios();
 
   const onSubmit = (data) => {
     // console.log(data);
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         alert("user created successfully");
         navigate(location.state?.from || "/");
+
+        //if a user login or register through form we know it but if a user login or register through social media/google for the first time or not we don't know it. so we have to update the user info and send it to the backend so that we can update the user info in the database and also update the user info in the frontend
+        const userInfo = {
+          email: result.user.email,
+          role: "user", //default user
+          photoURL: profilePic,
+          createdAt: new Date().toISOString(),
+          last_log_in: new Date().toISOString(),
+        };
+        const userRes = await axiosInstance.post("/users", userInfo);
+        console.log(userRes.data);
+
+        //update user profile picture
+        const userProfile = {
+          displayName: data.name,
+          photoURL: profilePic,
+        };
+        updateUserProfile(userProfile)
+          .then(() => {
+            console.log("user profile updated");
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
       })
       .catch((error) => {
         console.log(error.message);
@@ -38,7 +66,7 @@ const Register = () => {
       import.meta.env.VITE_imagebb_api_key
     }`;
     const res = await axios.post(imageurl, formData);
-    console.log(res);
+    setProfilePic(res.data.data.url);
   };
   return (
     <div>
